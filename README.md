@@ -19,7 +19,7 @@ Grid Web Generator es una herramienta visual para crear narrativas web interacti
 
 ### ✏️ Editor de Pantalla
 - Añade elementos de texto libremente
-- Posiciona con unidades `dvw` y `dvh` (responsive)
+- Posiciona con porcentajes (%) dentro de cada pantalla
 - Personaliza tamaño, color y fuente
 - Drag & drop para mover elementos
 - Color de fondo por pantalla
@@ -37,7 +37,7 @@ Grid Web Generator es una herramienta visual para crear narrativas web interacti
 
 ### 🚀 Exportación
 - HTML standalone listo para subir
-- Sin dependencias externas
+- Export HTML sin dependencias externas
 - Funciona en cualquier hosting
 - Navegación automática incluida
 
@@ -61,7 +61,7 @@ Grid Web Generator es una herramienta visual para crear narrativas web interacti
    - Tamaño (12-120px)
    - Color
    - Fuente
-   - Posición exacta (dvw/dvh)
+   - Posición exacta (%)
 5. Cambia el color de fondo de la pantalla
 
 ### 3. Preview
@@ -80,10 +80,11 @@ Grid Web Generator es una herramienta visual para crear narrativas web interacti
 
 ## 📐 Sistema de Coordenadas
 
-El generador usa **dvw** (viewport width) y **dvh** (viewport height) para posicionar elementos:
+El generador usa porcentajes (%) para posicionar elementos dentro de cada pantalla:
 
-- `10dvw` = 10% del ancho de la pantalla
-- `50dvh` = 50% del alto de la pantalla
+- `10%` = 10% del ancho de la pantalla
+- `50%` = 50% del alto de la pantalla
+- Los valores van de 0 a 100
 
 Esto hace que tu narrativa sea **totalmente responsive** y se adapte a cualquier tamaño de pantalla.
 
@@ -108,8 +109,9 @@ Explora nuevas formas de navegación web.
 ## 🛠️ Tecnologías
 
 - HTML5
-- CSS3 (con variables CSS y dvw/dvh)
+- CSS3 (con variables CSS y porcentajes)
 - JavaScript vanilla (ES6+)
+- Google Fonts (solo para la UI del editor)
 - Sin dependencias externas
 
 ---
@@ -164,7 +166,7 @@ grid-web-generator/
 ### Posicionamiento
 - Usa valores pequeños (0-20) para elementos cerca de los bordes
 - Usa valores centrales (40-60) para elementos en el medio
-- Los valores en dvw/dvh se adaptan automáticamente al tamaño de pantalla
+- Los valores en % se adaptan automáticamente al tamaño de pantalla
 
 ### Diseño responsive
 - Prueba tu narrativa en ambos modos (Desktop y Móvil)

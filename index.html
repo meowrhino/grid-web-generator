@@ -8,152 +8,177 @@
 </head>
 <body>
     <div class="app">
-        <!-- Header -->
-        <header class="header">
-            <h1>Grid Web Generator</h1>
-            <p class="subtitle">by <a href="https://meowrhino.studio" target="_blank">meowrhino.studio</a></p>
-            <div class="header-actions">
-                <button id="btn-save" class="btn btn-secondary">💾 Guardar</button>
-                <button id="btn-load" class="btn btn-secondary">📂 Cargar</button>
-                <button id="btn-export" class="btn btn-primary">⬇️ Exportar HTML</button>
+        <header class="topbar">
+            <div class="brand">
+                <h1>Grid Web Generator</h1>
+                <p class="subtitle">by <a href="https://meowrhino.studio" target="_blank" rel="noopener">meowrhino.studio</a></p>
+            </div>
+            <div class="topbar-actions">
+                <button id="btn-save" class="btn" type="button">Guardar</button>
+                <button id="btn-load" class="btn" type="button">Cargar</button>
+                <button id="btn-export" class="btn btn-primary" type="button">Exportar</button>
             </div>
         </header>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Left Panel: Grid Editor -->
-            <aside class="panel panel-grid">
-                <h2>📐 Editor de Grid</h2>
-                
-                <div class="grid-config">
-                    <label>
-                        Tamaño del grid:
-                        <select id="grid-size">
-                            <option value="3">3x3</option>
-                            <option value="5">5x5</option>
-                            <option value="7">7x7</option>
-                            <option value="9" selected>9x9</option>
-                        </select>
-                    </label>
-                </div>
+        <div class="layout">
+            <aside class="column column-left">
+                <section class="block" style="--delay: 0.05s;">
+                    <div class="block-header">
+                        <div>
+                            <h2>Mapa</h2>
+                            <p class="block-subtitle">Activa las celdas que necesitas.</p>
+                        </div>
+                        <label class="field">
+                            <span>Tamaño</span>
+                            <select id="grid-size">
+                                <option value="3">3x3</option>
+                                <option value="5">5x5</option>
+                                <option value="7">7x7</option>
+                                <option value="9" selected>9x9</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="grid-editor" id="grid-editor">
+                        <!-- Grid generado dinámicamente -->
+                    </div>
+                </section>
 
-                <div class="grid-editor" id="grid-editor">
-                    <!-- Grid generado dinámicamente -->
-                </div>
+                <section class="block block-muted" style="--delay: 0.1s;">
+                    <div class="block-header">
+                        <h3>Estado</h3>
+                    </div>
+                    <div class="status-list">
+                        <div class="status-item">
+                            <span class="status-label">Inicio</span>
+                            <span id="start-cell-status">-</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Pantalla</span>
+                            <span id="current-screen-status">-</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Activas</span>
+                            <span id="active-count">0</span>
+                        </div>
+                    </div>
+                    <p class="hint">Click para activar. Click derecho para inicio.</p>
+                </section>
 
-                <div class="grid-info">
-                    <p><strong>Instrucciones:</strong></p>
-                    <ul>
-                        <li>Click en una celda para activar/desactivar</li>
-                        <li>Click derecho para marcar como inicio (⭐)</li>
-                        <li>Las celdas activas se conectan automáticamente</li>
+                <section class="block block-compact" style="--delay: 0.15s;">
+                    <h3>Atajos</h3>
+                    <ul class="inline-list">
+                        <li>Arrastra para mover texto.</li>
+                        <li>Click en el lienzo para deseleccionar.</li>
+                        <li>Exporta desde la barra superior.</li>
                     </ul>
-                </div>
+                </section>
             </aside>
 
-            <!-- Center Panel: Screen Editor -->
-            <main class="panel panel-editor">
-                <div class="editor-header">
-                    <h2>✏️ Editor de Pantalla</h2>
-                    <div class="screen-selector">
-                        <label>
-                            Pantalla actual:
+            <main class="column column-center">
+                <section class="block" style="--delay: 0.05s;">
+                    <div class="block-header">
+                        <div>
+                            <h2>Pantalla</h2>
+                            <p class="block-subtitle">Edita contenido por celda.</p>
+                        </div>
+                        <label class="field">
+                            <span>Activa</span>
                             <select id="screen-selector">
                                 <option value="">Selecciona una celda activa</option>
                             </select>
                         </label>
                     </div>
-                </div>
 
-                <div class="editor-toolbar">
-                    <button id="btn-add-text" class="btn btn-tool">➕ Añadir texto</button>
-                    <button id="btn-delete-element" class="btn btn-tool btn-danger">🗑️ Eliminar seleccionado</button>
-                    
-                    <div class="toolbar-divider"></div>
-                    
-                    <label class="toolbar-item">
-                        Fondo:
-                        <input type="color" id="screen-bg-color" value="#ffffff">
-                    </label>
-                </div>
+                    <div class="toolbar">
+                        <button id="btn-add-text" class="btn" type="button">Añadir texto</button>
+                        <button id="btn-delete-element" class="btn btn-danger" type="button">Eliminar</button>
 
-                <div class="editor-canvas" id="editor-canvas">
-                    <div class="canvas-placeholder">
-                        Selecciona una pantalla para empezar a editar
+                        <label class="field-inline">
+                            <span>Fondo</span>
+                            <input type="color" id="screen-bg-color" value="#ffffff">
+                        </label>
                     </div>
-                </div>
+                </section>
 
-                <div class="element-properties" id="element-properties" style="display: none;">
-                    <h3>Propiedades del elemento</h3>
-                    <div class="property-group">
-                        <label>
-                            Texto:
+                <section class="block canvas-block" style="--delay: 0.1s;">
+                    <div class="editor-canvas" id="editor-canvas">
+                        <div class="canvas-placeholder">Selecciona una pantalla para empezar.</div>
+                    </div>
+                </section>
+
+                <section class="block block-muted" id="element-properties" style="--delay: 0.15s;" hidden>
+                    <div class="block-header">
+                        <h3>Propiedades</h3>
+                    </div>
+                    <div class="property-grid">
+                        <label class="property property-wide">
+                            <span>Texto</span>
                             <textarea id="prop-text" rows="3"></textarea>
                         </label>
-                    </div>
-                    <div class="property-group">
-                        <label>
-                            Tamaño:
-                            <input type="range" id="prop-size" min="12" max="120" value="24">
-                            <span id="prop-size-value">24px</span>
+                        <label class="property">
+                            <span>Tamaño</span>
+                            <div class="range-row">
+                                <input type="range" id="prop-size" min="12" max="120" value="24">
+                                <span id="prop-size-value">24px</span>
+                            </div>
                         </label>
-                    </div>
-                    <div class="property-group">
-                        <label>
-                            Color:
+                        <label class="property">
+                            <span>Color</span>
                             <input type="color" id="prop-color" value="#000000">
                         </label>
-                    </div>
-                    <div class="property-group">
-                        <label>
-                            Fuente:
+                        <label class="property">
+                            <span>Fuente</span>
                             <select id="prop-font">
-                                <option value="Arial, sans-serif">Arial</option>
-                                <option value="'Times New Roman', serif">Times New Roman</option>
-                                <option value="'Courier New', monospace">Courier New</option>
-                                <option value="Georgia, serif">Georgia</option>
-                                <option value="Verdana, sans-serif">Verdana</option>
-                                <option value="'Comic Sans MS', cursive">Comic Sans</option>
+                                <option value="'Space Grotesk', sans-serif">Space Grotesk</option>
+                                <option value="'Fraunces', serif">Fraunces</option>
+                                <option value="'Work Sans', sans-serif">Work Sans</option>
+                                <option value="'Source Serif 4', serif">Source Serif</option>
+                                <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
                             </select>
                         </label>
-                    </div>
-                    <div class="property-group">
-                        <label>
-                            Posición X (dvw):
+                        <label class="property">
+                            <span>X (%)</span>
                             <input type="number" id="prop-x" min="0" max="100" step="0.1" value="10">
                         </label>
-                    </div>
-                    <div class="property-group">
-                        <label>
-                            Posición Y (dvh):
+                        <label class="property">
+                            <span>Y (%)</span>
                             <input type="number" id="prop-y" min="0" max="100" step="0.1" value="10">
                         </label>
                     </div>
-                </div>
+                </section>
             </main>
 
-            <!-- Right Panel: Preview -->
-            <aside class="panel panel-preview">
-                <h2>👁️ Preview</h2>
-                
-                <div class="preview-tabs">
-                    <button class="preview-tab active" data-mode="desktop">🖥️ Desktop</button>
-                    <button class="preview-tab" data-mode="mobile">📱 Móvil</button>
-                </div>
+            <aside class="column column-right">
+                <section class="block" style="--delay: 0.05s;">
+                    <div class="block-header">
+                        <div>
+                            <h2>Preview</h2>
+                            <p class="block-subtitle">Vista en tiempo real.</p>
+                        </div>
+                        <div class="preview-tabs">
+                            <button class="preview-tab active" data-mode="desktop" type="button">Desktop</button>
+                            <button class="preview-tab" data-mode="mobile" type="button">Móvil</button>
+                        </div>
+                    </div>
 
-                <div class="preview-container">
-                    <div class="preview-frame" id="preview-frame" data-mode="desktop">
-                        <div class="preview-content" id="preview-content">
-                            <div class="preview-placeholder">
-                                El preview se mostrará aquí
+                    <div class="preview-container">
+                        <div class="preview-frame" id="preview-frame" data-mode="desktop">
+                            <div class="preview-content" id="preview-content">
+                                <div class="preview-placeholder">El preview se mostrará aquí.</div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="preview-info">
-                    <p id="preview-dimensions">1280 x 832 px</p>
-                </div>
+                    <div class="preview-info">
+                        <span id="preview-dimensions">1280 x 832 px</span>
+                        <span id="preview-screen-label">Pantalla -</span>
+                    </div>
+                </section>
+
+                <section class="block block-compact" style="--delay: 0.1s;">
+                    <h3>Export</h3>
+                    <p class="hint">Define una celda de inicio antes de exportar.</p>
+                </section>
             </aside>
         </div>
     </div>

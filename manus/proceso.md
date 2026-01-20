@@ -19,7 +19,7 @@ El usuario solicitó crear un generador de páginas web similar a Mosi, pero enf
 1. Editor de grid hasta 9x9 con activación de celdas
 2. Selección de celda inicial
 3. Navegación automática entre pantallas
-4. Editor de texto con posicionamiento libre usando dvw/dvh
+4. Editor de texto con posicionamiento libre usando porcentajes
 5. Preview dual: Desktop (1280x832) y Móvil (320x580)
 6. Exportación como HTML standalone
 7. Guardar/cargar proyectos
@@ -38,16 +38,16 @@ El proyecto se organizó en tres archivos principales siguiendo el principio de 
 
 ### Diseño de la interfaz
 
-La interfaz se dividió en tres paneles principales:
+La interfaz se organizó en tres columnas con bloques apilados:
 
-#### Panel izquierdo: Editor de Grid
-Permite configurar el grid y activar/desactivar celdas. Incluye selector de tamaño (3x3, 5x5, 7x7, 9x9) e instrucciones visuales.
+#### Columna izquierda: Mapa y estado
+Permite configurar el grid y activar/desactivar celdas. Incluye selector de tamaño, mapa de celdas y un bloque de estado con métricas rápidas.
 
-#### Panel central: Editor de Pantalla
-Proporciona herramientas para editar el contenido de cada pantalla seleccionada. Incluye toolbar con botones de acción, canvas editable y panel de propiedades para elementos seleccionados.
+#### Columna central: Pantalla y propiedades
+Proporciona herramientas para editar el contenido de cada pantalla seleccionada. Incluye acciones, lienzo editable y panel de propiedades para elementos seleccionados.
 
-#### Panel derecho: Preview
-Muestra una vista previa en tiempo real con dos modos (Desktop y Móvil). Los botones de navegación se generan automáticamente según las celdas adyacentes activas.
+#### Columna derecha: Preview y export
+Muestra una vista previa en tiempo real con dos modos (Desktop y Móvil) y un bloque auxiliar de exportación. Los botones de navegación se generan automáticamente según las celdas adyacentes activas.
 
 ---
 
@@ -80,14 +80,14 @@ Cuando se activa una celda, se crea automáticamente un objeto `screen` con su c
 
 ### 3. Editor de Pantalla
 
-Los elementos de texto se posicionan usando `position: absolute` con unidades `dvw` y `dvh`. Esto garantiza que sean responsive y se adapten a cualquier tamaño de pantalla.
+Los elementos de texto se posicionan usando `position: absolute` con porcentajes (%) relativos al contenedor. Esto garantiza que sean responsive y se adapten a cualquier tamaño de pantalla.
 
 #### Sistema de drag & drop
 
 Se implementó un sistema de arrastre personalizado que:
 1. Captura la posición inicial al hacer mousedown
 2. Calcula el delta de movimiento en mousemove
-3. Convierte píxeles a porcentajes (dvw/dvh)
+3. Convierte píxeles a porcentajes (%)
 4. Actualiza la posición del elemento y el estado
 
 #### Panel de propiedades
@@ -97,14 +97,14 @@ Permite editar todas las características del elemento seleccionado:
 - Tamaño (12-120px con slider)
 - Color (color picker)
 - Fuente (select con opciones comunes)
-- Posición X e Y (inputs numéricos en dvw/dvh)
+- Posición X e Y (inputs numéricos en %)
 
 ### 4. Sistema de Preview
 
 El preview se actualiza en tiempo real cada vez que cambia algo. Se implementaron dos modos con escalado CSS:
 
 - **Desktop**: 1280x832px escalado a 25% (transform: scale(0.25))
-- **Móvil**: 320x580px escalado a 60% (transform: scale(0.6))
+- **Móvil**: 320x580px escalado a 65% (transform: scale(0.65))
 
 #### Generación automática de navegación
 
@@ -145,23 +145,22 @@ El HTML exportado no tiene dependencias externas y funciona directamente al abri
 
 ### Paleta de colores
 
-Se eligió una paleta oscura profesional:
-- **Primary**: #6366f1 (Indigo) - Para acciones principales
-- **Secondary**: #8b5cf6 (Purple) - Para elementos destacados
-- **Danger**: #ef4444 (Red) - Para acciones destructivas
-- **Background**: Tonos de gris oscuro (#1e293b, #334155, #475569)
-- **Text**: Tonos de gris claro (#f1f5f9, #cbd5e1)
+Se eligió una paleta clara y cálida con contraste suave:
+- **Accent**: #1f5b4b (verde profundo) para acciones principales
+- **Surface**: #ffffff / #f1ece2 para bloques
+- **Background**: #f6f2ea con gradientes suaves
+- **Text**: #1e2326 y #6a6a63 para jerarquía de lectura
 
 ### Tipografía
 
-Se usa la fuente del sistema para mejor rendimiento y consistencia:
-```css
-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-```
+Se combinan dos familias con personalidad:
+- **Space Grotesk** para interfaz y texto
+- **Fraunces** para titulares
+- Se cargan desde Google Fonts en la UI del editor
 
 ### Responsive
 
-Aunque la herramienta está diseñada para desktop, el contenido generado es completamente responsive gracias al uso de dvw/dvh.
+El layout usa columnas con bloques que se apilan en pantallas pequeñas, y las posiciones usan porcentajes para mantener consistencia.
 
 ---
 
@@ -183,15 +182,15 @@ Aunque la herramienta está diseñada para desktop, el contenido generado es com
 3. **Editor de texto con posicionamiento libre** ⭐⭐
    - Añadir elementos de texto
    - Drag & drop para mover
-   - Posicionamiento con dvw/dvh
+   - Posicionamiento con %
    - Selección visual
 
 4. **Propiedades de texto** ⭐
    - Editar contenido
    - Tamaño (12-120px)
    - Color personalizable
-   - 6 fuentes disponibles
-   - Posición exacta en dvw/dvh
+   - 5 fuentes disponibles
+   - Posición exacta en %
 
 5. **Paleta de colores** ⭐
    - Color de fondo por pantalla
@@ -219,12 +218,12 @@ Aunque la herramienta está diseñada para desktop, el contenido generado es com
 
 ## 🔧 Detalles técnicos
 
-### Uso de dvw/dvh
+### Uso de porcentajes
 
-Las unidades `dvw` (dynamic viewport width) y `dvh` (dynamic viewport height) son superiores a `vw` y `vh` porque:
-- Se adaptan a la barra de direcciones en móviles
-- Evitan problemas de scroll en iOS/Android
-- Proporcionan medidas más precisas
+Las posiciones se guardan como valores de 0 a 100 (% del ancho/alto de cada pantalla):
+- Facilita el ajuste visual en el editor
+- Mantiene coherencia entre editor, preview y export
+- Evita dependencias con el viewport del navegador
 
 ### Generación de HTML standalone
 
@@ -254,7 +253,7 @@ Cada función tiene una responsabilidad única y está bien comentada.
 - **Líneas de código**: ~650 (JavaScript) + ~350 (CSS) + ~150 (HTML)
 - **Archivos**: 3 principales + 2 documentación
 - **Tiempo de desarrollo**: ~4 horas
-- **Dependencias externas**: 0
+- **Dependencias externas**: Google Fonts (UI del editor)
 - **Tamaño total**: ~50KB
 
 ---
@@ -302,13 +301,13 @@ Cada función tiene una responsabilidad única y está bien comentada.
 ## 💡 Aprendizajes
 
 ### Técnicos
-1. El uso de dvw/dvh es superior a vw/vh para aplicaciones responsive
+1. El uso de porcentajes mantiene coherencia entre editor, preview y export
 2. CSS Grid es perfecto para layouts de herramientas de edición
 3. El sistema de drag & drop con cálculos de porcentaje es más robusto que usar píxeles
 4. Generar HTML standalone es más simple de lo que parece
 
 ### De diseño
-1. Una paleta oscura reduce la fatiga visual en herramientas de edición
+1. Una paleta clara con bloques suaves mejora la lectura y la jerarquía
 2. El preview en tiempo real mejora mucho la experiencia
 3. Los modos Desktop/Móvil son esenciales para contenido responsive
 4. Las instrucciones visuales reducen la curva de aprendizaje
@@ -325,7 +324,7 @@ Cada función tiene una responsabilidad única y está bien comentada.
 
 El Grid Web Generator cumple todos los objetivos planteados y proporciona una base sólida para crear narrativas web interactivas. El código es limpio, modular y fácil de extender. La herramienta es intuitiva y permite crear experiencias web únicas sin necesidad de programar.
 
-El proyecto demuestra que es posible crear herramientas de autor web potentes usando solo HTML, CSS y JavaScript vanilla, sin dependencias externas ni frameworks complejos.
+El proyecto demuestra que es posible crear herramientas de autor web potentes usando solo HTML, CSS y JavaScript vanilla, con dependencias mínimas y sin frameworks complejos.
 
 ---
 
